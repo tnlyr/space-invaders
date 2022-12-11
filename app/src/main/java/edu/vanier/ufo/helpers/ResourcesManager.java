@@ -19,7 +19,7 @@ public class ResourcesManager {
     private static final String SOUNDS_FOLDER = RESOURCES_FOLDER + "sounds/";
     // Ship images.
     public static final String SPACE_SHIP = IMAGES_FOLDER + "spiked ship.png";
-    public static final String SPACE_STAR_SHIP = IMAGES_FOLDER + "starship.png";
+    public static final String SPACE_STAR_SHIP = IMAGES_FOLDER + "Ship.png";
     public static final String SPACE_TANK = IMAGES_FOLDER + "tank.png";
     // Rocket images
     public static final String ROCKET_SMALL = IMAGES_FOLDER + "rocket.png";
@@ -31,7 +31,7 @@ public class ResourcesManager {
     public static final String INVADER_UFO = IMAGES_FOLDER + "ufo.png";
     public static final String INVADER_CHICKEN = IMAGES_FOLDER + "rounded-chicken.png";
     public static final String INVADER_BEE = IMAGES_FOLDER + "small-bee.png";
-    public static final String INVADER_SCI_FI = IMAGES_FOLDER + "sci-fi.png";
+    public static final String INVADER_SCI_FI = IMAGES_FOLDER + "villainGreen.png";
 
     // Explosion sprites.
     public static final String EXPLOSION = IMAGES_FOLDER + "misc_fire_explosion_png_by_dbszabo1_d54y34h-fullview.png";
