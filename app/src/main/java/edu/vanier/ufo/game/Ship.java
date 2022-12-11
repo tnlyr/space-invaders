@@ -491,18 +491,18 @@ public class Ship extends Sprite {
 
             // add shield
             shield = new Circle();
-            shield.setRadius(60);
-            shield.setStrokeWidth(5);
-            shield.setStroke(Color.LIMEGREEN);
+            shield.setRadius(80);
+            shield.setStrokeWidth(2);
+            shield.setStroke(Color.RED);
             shield.setCenterX(x);
             shield.setCenterY(y);
-            shield.setOpacity(.70);
+            shield.setOpacity(.90);
             setCollisionBounds(shield);
             //--
             shieldFade = new FadeTransition();
-            shieldFade.setFromValue(1);
-            shieldFade.setToValue(.40);
-            shieldFade.setDuration(Duration.millis(1000));
+            shieldFade.setFromValue(1.5);
+            shieldFade.setToValue(.50);
+            shieldFade.setDuration(Duration.millis(800));
             shieldFade.setCycleCount(12);
             shieldFade.setAutoReverse(true);
             shieldFade.setNode(shield);
