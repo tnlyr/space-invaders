@@ -34,7 +34,7 @@ public class ResourcesManager {
     public static final String INVADER_SCI_FI = IMAGES_FOLDER + "sci-fi.png";
 
     // Explosion sprites.
-    public static final String EXPLOSION = IMAGES_FOLDER + "explosion.png";
+    public static final String EXPLOSION = IMAGES_FOLDER + "misc_fire_explosion_png_by_dbszabo1_d54y34h-fullview.png";
 
     // Sound effect files
     public static final String SOUND_LASER = SOUNDS_FOLDER + "laser_2.mp3";    
