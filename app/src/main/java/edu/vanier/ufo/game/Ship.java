@@ -462,7 +462,7 @@ public class Ship extends Sprite {
 
         //fireMissile.setPosition(getNode().getLayoutX()+ 10, getNode().getLayoutY() - 20);
         // velocity vector of the missile
-        fireMissile.setVelocityX(Math.cos(Math.toRadians(uIndex * UNIT_ANGLE_PER_FRAME)) * (MISSILE_THRUST_AMOUNT - slowDownAmt));
+        fireMissile.setVelocityX(Math.cos(Math.toRadians(vIndex * UNIT_ANGLE_PER_FRAME)) * (MISSILE_THRUST_AMOUNT - slowDownAmt));
         fireMissile.setVelocityY(Math.sin(Math.toRadians(-vIndex * UNIT_ANGLE_PER_FRAME)) * (MISSILE_THRUST_AMOUNT - slowDownAmt));
 
         // make the missile launch in the direction of the current direction of the ship nose. based on the
