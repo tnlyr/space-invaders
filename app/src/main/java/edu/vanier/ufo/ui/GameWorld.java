@@ -6,10 +6,12 @@ import edu.vanier.ufo.game.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -18,9 +20,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.Random;
 import javafx.scene.image.ImageView;
+import javafx.stage.StageStyle;
 
 /**
  * This is a simple game world simulating a bunch of spheres looking like atomic
@@ -89,11 +94,14 @@ public class GameWorld extends GameEngine {
         // set the ship to the center of the screen
         spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
         spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
-        // set lives
+        // set lives/score/level
         setCurrentLife(3);
+        setCurrentScore(0);
+        setCurrentLevel(1);
         // mouse point
         VBox stats = new VBox();
 
+        // HUD
         HBox row1 = new HBox();
         mousePtLabel.setTextFill(Color.WHITE);
         row1.getChildren().add(mousePtLabel);
@@ -119,7 +127,6 @@ public class GameWorld extends GameEngine {
         stats.getChildren().add(row4);
         stats.getChildren().add(row5);
 
-        //TODO: Add the HUD here.
         getSceneNodes().getChildren().add(0, stats);
 
 
@@ -353,9 +360,35 @@ public class GameWorld extends GameEngine {
             }
         } else if (spriteA.getClass().equals(Atom.class) && spriteB instanceof Ship) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
-                setCurrentLife(getCurrentLife() - 1);
                 System.out.println("Atom and Ship collided");
                 spriteA.handleDeath(this);
+                // if the ship is hit, decrement the ship's health; if the ship's health is 0, remove the ship from the game and end the game
+                if (getCurrentLife() > 0) {
+                    setCurrentLife(getCurrentLife() - 1);
+                } else if (getCurrentLife() == 0) {
+                    spriteB.handleDeath(this);
+                    // TODO: end the game
+                    VBox gameOver = new VBox(20);
+                    gameOver.getChildren().add(new Text("Game Over"));
+                    gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
+                    gameOver.setAlignment(Pos.CENTER);
+                    Button restart = new Button("Restart");
+                    gameOver.getChildren().add(restart);
+                    Button quit = new Button("Quit");
+                    gameOver.getChildren().add(quit);
+                    Stage gameOverStage = new Stage(StageStyle.TRANSPARENT);
+                    gameOverStage.initOwner(getGameSurface().getWindow());
+                    gameOverStage.initModality(Modality.APPLICATION_MODAL);
+                    gameOverStage.setScene(new Scene(gameOver, Color.TRANSPARENT));
+                    gameOverStage.show();
+                    restart.setOnAction(e -> {
+                        gameOverStage.close();
+                        initialize((Stage) getGameSurface().getWindow());
+                    });
+                    quit.setOnAction(e -> {
+                        System.exit(0);
+                    });
+                }
             }
         }
         return false;
