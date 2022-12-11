@@ -72,10 +72,13 @@ public class GameWorld extends GameEngine {
         keyboardEventHandler(primaryStage);
 
         // Create many spheres
-        generateManySpheres(5);
+        generateManySpheres(10);
 
         getSpriteManager().addSprites(spaceShip);
         getSceneNodes().getChildren().add(0, spaceShip.getNode());
+        // set the ship to the center of the screen
+        spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
+        spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2*getGameSurface().getHeight() / 4);
         // mouse point
         VBox stats = new VBox();
 
@@ -178,7 +181,9 @@ public class GameWorld extends GameEngine {
                 spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() + 10, true);
             } else if (KeyCode.D == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX() + 10, spaceShip.getCenterY(), true);
-            }
+            } else if (KeyCode.X == event.getCode()) {
+            spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+        }
         });
 
     }
@@ -193,6 +198,7 @@ public class GameWorld extends GameEngine {
         Random rnd = new Random();
         Scene gameSurface = getGameSurface();
         for (int i = 0; i < numSpheres; i++) {
+            // TODO : Generate random atoms
             Atom atom = new Atom(ResourcesManager.INVADER_SCI_FI);
             ImageView atomImage = atom.getImageViewNode();
             // random 0 to 2 + (.0 to 1) * random (1 or -1)
