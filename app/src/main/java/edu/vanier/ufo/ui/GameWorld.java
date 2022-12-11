@@ -42,6 +42,7 @@ public class GameWorld extends GameEngine {
     //Counter of lives
     Label currentLives = new Label();
     Ship spaceShip = new Ship();
+    int currentLife = 3;
 
     public GameWorld(int fps, String title) {
         super(fps, title);
@@ -78,7 +79,7 @@ public class GameWorld extends GameEngine {
         getSceneNodes().getChildren().add(0, spaceShip.getNode());
         // set the ship to the center of the screen
         spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
-        spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2*getGameSurface().getHeight() / 4);
+        spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
         // mouse point
         VBox stats = new VBox();
 
@@ -97,7 +98,7 @@ public class GameWorld extends GameEngine {
         currentLevel.setTextFill(Color.GREEN);
         row4.getChildren().add(currentLevel);
         HBox row5 = new HBox();
-        currentLives.setText("Amount of Lives:");
+        currentLives.setText("Amount of Lives: "+currentLife);
         currentLives.setTextFill(Color.RED);
         row5.getChildren().add(currentLives);
 
@@ -106,7 +107,7 @@ public class GameWorld extends GameEngine {
         stats.getChildren().add(row3);
         stats.getChildren().add(row4);
         stats.getChildren().add(row5);
-        
+
         //TODO: Add the HUD here.
         getSceneNodes().getChildren().add(0, stats);
 
@@ -166,11 +167,11 @@ public class GameWorld extends GameEngine {
         EventHandler showMouseMove = (EventHandler<MouseEvent>) (MouseEvent event) -> {
             mousePtLabel.setText("Mouse PT = (" + event.getX() + ", " + event.getY() + ")");
         };
-
+        
         primaryStage.getScene().setOnMouseMoved(showMouseMove);
     }
 
-    private void keyboardEventHandler(Stage primaryStage){
+    private void keyboardEventHandler(Stage primaryStage) {
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (KeyCode.W == event.getCode()) {
                 System.out.println("W pressed");
@@ -203,7 +204,7 @@ public class GameWorld extends GameEngine {
      * Make some more space spheres (Atomic particles)
      *
      * @param numSpheres The number of random sized, color, and velocity atoms
-     * to generate.
+     *                   to generate.
      */
     private void generateManySpheres(int numSpheres) {
         Random rnd = new Random();
@@ -265,7 +266,7 @@ public class GameWorld extends GameEngine {
      * Change the direction of the moving object when it encounters the walls.
      *
      * @param sprite The sprite to update based on the wall boundaries. TODO The
-     * ship has got issues.
+     *               ship has got issues.
      */
     private void bounceOffWalls(Sprite sprite) {
         // bounce off the walls when outside of boundaries
@@ -319,7 +320,6 @@ public class GameWorld extends GameEngine {
      * zeroing out the velocity if a collision occurred. /** How to handle the
      * collision of two sprite objects. Stops the particle by
      *
-     *
      * @param spriteA Sprite from the first list.
      * @param spriteB Sprite from the second list.
      * @return boolean returns a true if the two sprites have collided otherwise
@@ -340,6 +340,7 @@ public class GameWorld extends GameEngine {
             }
         } else if (spriteA.getClass().equals(Atom.class) && spriteB instanceof Ship) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
+                currentLife--;
                 System.out.println("Atom and Ship collided");
                 spriteA.handleDeath(this);
                 // TODO: decrement ship's health
@@ -347,4 +348,7 @@ public class GameWorld extends GameEngine {
         }
         return false;
     }
+
+
 }
+
