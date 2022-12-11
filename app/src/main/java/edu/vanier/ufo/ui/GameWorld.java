@@ -63,6 +63,7 @@ public class GameWorld extends GameEngine {
 
         // Setup Game input
         setupInput(primaryStage);
+        keyboardEventHandler(primaryStage);
 
         // Create many spheres
         generateManySpheres(5);
@@ -141,9 +142,13 @@ public class GameWorld extends GameEngine {
             mousePtLabel.setText("Mouse PT = (" + event.getX() + ", " + event.getY() + ")");
         };
 
-        // WASD movement
-        EventHandler moveShip = (EventHandler<KeyEvent>) (KeyEvent event) -> {
+        primaryStage.getScene().setOnMouseMoved(showMouseMove);
+    }
+
+    private void keyboardEventHandler(Stage primaryStage){
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (KeyCode.W == event.getCode()) {
+                System.out.println("W pressed");
                 spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() - 10, true);
             } else if (KeyCode.A == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX() - 10, spaceShip.getCenterY(), true);
@@ -152,9 +157,8 @@ public class GameWorld extends GameEngine {
             } else if (KeyCode.D == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX() + 10, spaceShip.getCenterY(), true);
             }
-        };
+        });
 
-        primaryStage.getScene().setOnMouseMoved(showMouseMove);
     }
 
     /**
