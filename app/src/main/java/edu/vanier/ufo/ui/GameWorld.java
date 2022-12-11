@@ -149,7 +149,7 @@ public class GameWorld extends GameEngine {
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (KeyCode.W == event.getCode()) {
                 System.out.println("W pressed");
-                spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() - 10, true);
+                spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() - 1000, true);
             } else if (KeyCode.A == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX() - 10, spaceShip.getCenterY(), true);
             } else if (KeyCode.S == event.getCode()) {
