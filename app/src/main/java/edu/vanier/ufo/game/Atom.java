@@ -61,28 +61,19 @@ public class Atom extends Sprite {
         vX = vY = 0;
         Node currentNode = getNode();
         Sprite explosion = new Atom(ResourcesManager.EXPLOSION);
-        // TODO : set position of explosion to current position of atom
         gameWorld.getSceneNodes().getChildren().add(explosion.getNode());
-        FadeTransition explosionTransition = new FadeTransition(Duration.millis(250), currentNode);
-        explosionTransition.setFromValue(1.0);
-        explosionTransition.setToValue(0.0);
-        explosionTransition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                gameWorld.getSceneNodes().getChildren().remove(explosion.getNode());
-            }
-        });
-        explosionTransition.play();
+        explosion.getNode().setTranslateX(currentNode.getTranslateX());
+        explosion.getNode().setTranslateY(currentNode.getTranslateY());
 
         FadeTransition ft = new FadeTransition(Duration.millis(300), currentNode);
         ft.setFromValue(vX);
         ft.setToValue(0);
-        ft.setOnFinished((ActionEvent event) -> {
-            isDead = true;
+        ft.setOnFinished((ActionEvent event) ->{
             gameWorld.getSceneNodes().getChildren().remove(currentNode);
+            gameWorld.getSceneNodes().getChildren().remove(explosion.getNode());
+            isDead = true;
         });
         ft.play();
-
     }
 
     @Override
