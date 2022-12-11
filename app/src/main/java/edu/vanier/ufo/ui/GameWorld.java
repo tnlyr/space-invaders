@@ -174,16 +174,27 @@ public class GameWorld extends GameEngine {
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (KeyCode.W == event.getCode()) {
                 System.out.println("W pressed");
-                spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() - 1000, true);
+                spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() - 10, true);
             } else if (KeyCode.A == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX() - 10, spaceShip.getCenterY(), true);
             } else if (KeyCode.S == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() + 10, true);
             } else if (KeyCode.D == event.getCode()) {
                 spaceShip.plotCourse(spaceShip.getCenterX() + 10, spaceShip.getCenterY(), true);
-            } else if (KeyCode.X == event.getCode()) {
-            spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-        }
+            }
+        });
+        // if key is released, stop moving
+        primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+            if (KeyCode.W == event.getCode()) {
+                System.out.println("W released");
+                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+            } else if (KeyCode.A == event.getCode()) {
+                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+            } else if (KeyCode.S == event.getCode()) {
+                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+            } else if (KeyCode.D == event.getCode()) {
+                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+            }
         });
 
     }
