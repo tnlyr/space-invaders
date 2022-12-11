@@ -35,6 +35,12 @@ public class GameWorld extends GameEngine {
     Label mousePtLabel = new Label();
     // mouse press pt label
     Label mousePressPtLabel = new Label();
+    //Current Score Label
+    Label currentScore = new Label();
+    //Current Level
+    Label currentLevel = new Label();
+    //Counter of lives
+    Label currentLives = new Label();
     Ship spaceShip = new Ship();
 
     public GameWorld(int fps, String title) {
@@ -79,8 +85,24 @@ public class GameWorld extends GameEngine {
         HBox row2 = new HBox();
         mousePressPtLabel.setTextFill(Color.WHITE);
         row2.getChildren().add(mousePressPtLabel);
+        HBox row3 = new HBox();
+        currentScore.setText("Current Score: ");
+        currentScore.setTextFill(Color.GREEN);
+        row3.getChildren().add(currentScore);
+        HBox row4 = new HBox();
+        currentLevel.setText("Current Level: ");
+        currentLevel.setTextFill(Color.GREEN);
+        row4.getChildren().add(currentLevel);
+        HBox row5 = new HBox();
+        currentLives.setText("Amount of Lives:");
+        currentLives.setTextFill(Color.RED);
+        row5.getChildren().add(currentLives);
+
         stats.getChildren().add(row1);
         stats.getChildren().add(row2);
+        stats.getChildren().add(row3);
+        stats.getChildren().add(row4);
+        stats.getChildren().add(row5);
         
         //TODO: Add the HUD here.
         getSceneNodes().getChildren().add(0, stats);
