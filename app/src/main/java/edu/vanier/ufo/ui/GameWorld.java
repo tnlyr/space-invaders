@@ -141,6 +141,19 @@ public class GameWorld extends GameEngine {
             mousePtLabel.setText("Mouse PT = (" + event.getX() + ", " + event.getY() + ")");
         };
 
+        // WASD movement
+        EventHandler moveShip = (EventHandler<KeyEvent>) (KeyEvent event) -> {
+            if (KeyCode.W == event.getCode()) {
+                spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() - 10, true);
+            } else if (KeyCode.A == event.getCode()) {
+                spaceShip.plotCourse(spaceShip.getCenterX() - 10, spaceShip.getCenterY(), true);
+            } else if (KeyCode.S == event.getCode()) {
+                spaceShip.plotCourse(spaceShip.getCenterX(), spaceShip.getCenterY() + 10, true);
+            } else if (KeyCode.D == event.getCode()) {
+                spaceShip.plotCourse(spaceShip.getCenterX() + 10, spaceShip.getCenterY(), true);
+            }
+        };
+
         primaryStage.getScene().setOnMouseMoved(showMouseMove);
     }
 
@@ -272,7 +285,23 @@ public class GameWorld extends GameEngine {
     @Override
     protected boolean handleCollision(Sprite spriteA, Sprite spriteB) {
         //TODO: implement collision detection here.
+        // if collision between a missile and an invader occurs, remove both from the game
+        // if collision between an invader and the ship occurs, remove the missile and decrement the ship's health
 
+        if (spriteA instanceof Missile && spriteB.getClass().equals(Atom.class)) {
+            if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
+                System.out.println("Missile and Atom collided");
+                spriteA.handleDeath(this);
+                spriteB.handleDeath(this);
+                return true;
+            }
+        } else if (spriteA.getClass().equals(Atom.class) && spriteB instanceof Ship) {
+            if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
+                System.out.println("Atom and Ship collided");
+                spriteA.handleDeath(this);
+                // TODO: decrement ship's health
+            }
+        }
         return false;
     }
 }
