@@ -5,6 +5,7 @@ import edu.vanier.ufo.engine.Sprite;
 import edu.vanier.ufo.helpers.ResourcesManager;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,9 +60,20 @@ public class Atom extends Sprite {
     public void implode(final GameEngine gameWorld) {
         vX = vY = 0;
         Node currentNode = getNode();
-        /* TODO: fix this code to add explosing effect*/
-        //Sprite explosion = new Atom(ResourcesManager.ROCKET_FIRE);                
-        //gameWorld.getSceneNodes().getChildren().add(explosion.getNode());
+        Sprite explosion = new Atom(ResourcesManager.EXPLOSION);
+        // TODO : set position of explosion to current position of atom
+        gameWorld.getSceneNodes().getChildren().add(explosion.getNode());
+        FadeTransition explosionTransition = new FadeTransition(Duration.millis(250), currentNode);
+        explosionTransition.setFromValue(1.0);
+        explosionTransition.setToValue(0.0);
+        explosionTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                gameWorld.getSceneNodes().getChildren().remove(explosion.getNode());
+            }
+        });
+        explosionTransition.play();
+
         FadeTransition ft = new FadeTransition(Duration.millis(300), currentNode);
         ft.setFromValue(vX);
         ft.setToValue(0);
@@ -70,6 +82,7 @@ public class Atom extends Sprite {
             gameWorld.getSceneNodes().getChildren().remove(currentNode);
         });
         ft.play();
+
     }
 
     @Override
