@@ -3,6 +3,8 @@ package edu.vanier.ufo.ui;
 import edu.vanier.ufo.helpers.ResourcesManager;
 import edu.vanier.ufo.engine.*;
 import edu.vanier.ufo.game.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
@@ -38,11 +40,18 @@ public class GameWorld extends GameEngine {
     //Current Score Label
     Label currentScore = new Label();
     //Current Level
-    Label currentLevel = new Label();
+    Label currentLevel = new Label("test");
     //Counter of lives
     Label currentLives = new Label();
     Ship spaceShip = new Ship();
-    int currentLife = 3;
+
+    int currentLifeInt;
+
+
+
+    int currentScoreInt;
+    int currentLevelInt;
+
 
     public GameWorld(int fps, String title) {
         super(fps, title);
@@ -80,6 +89,8 @@ public class GameWorld extends GameEngine {
         // set the ship to the center of the screen
         spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
         spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
+        // set lives
+        setCurrentLife(3);
         // mouse point
         VBox stats = new VBox();
 
@@ -98,7 +109,7 @@ public class GameWorld extends GameEngine {
         currentLevel.setTextFill(Color.GREEN);
         row4.getChildren().add(currentLevel);
         HBox row5 = new HBox();
-        currentLives.setText("Amount of Lives: "+currentLife);
+        currentLives.setText("Current Lives: " + getCurrentLife());
         currentLives.setTextFill(Color.RED);
         row5.getChildren().add(currentLives);
 
@@ -115,6 +126,7 @@ public class GameWorld extends GameEngine {
         // load sound files
         getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER));
     }
+
 
     /**
      * Sets up the mouse input.
@@ -333,6 +345,7 @@ public class GameWorld extends GameEngine {
 
         if (spriteA instanceof Missile && spriteB.getClass().equals(Atom.class)) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
+                setCurrentScore(getCurrentScore() + 1);
                 System.out.println("Missile and Atom collided");
                 spriteA.handleDeath(this);
                 spriteB.handleDeath(this);
@@ -340,15 +353,40 @@ public class GameWorld extends GameEngine {
             }
         } else if (spriteA.getClass().equals(Atom.class) && spriteB instanceof Ship) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
-                currentLife--;
+                setCurrentLife(getCurrentLife() - 1);
                 System.out.println("Atom and Ship collided");
                 spriteA.handleDeath(this);
-                // TODO: decrement ship's health
             }
         }
         return false;
     }
 
+    public int getCurrentLife() {
+        return currentLifeInt;
+    }
+
+    public void setCurrentLife(int currentLife) {
+        this.currentLifeInt = currentLife;
+        currentLives.setText("Lives: " + currentLife);
+    }
+
+    public int getCurrentScore() {
+        return currentScoreInt;
+    }
+
+    public void setCurrentScore(int currentScoreInt) {
+        this.currentScoreInt = currentScoreInt;
+        currentScore.setText("Score: " + currentScoreInt);
+    }
+
+    public int getCurrentLevel() {
+        return currentLevelInt;
+    }
+
+    public void setCurrentLevel(int currentLevelInt) {
+        this.currentLevelInt = currentLevelInt;
+        currentLevel.setText("Level: " + currentLevelInt);
+    }
 
 }
 
