@@ -36,8 +36,10 @@ public class ResourcesManager {
     // Explosion sprites.
     public static final String EXPLOSION = IMAGES_FOLDER + "explotion-explode.gif";
 
+
     // Sound effect files
     public static final String SOUND_LASER = SOUNDS_FOLDER + "burstFire.mp3";
+    public static final String SOUND_COLLISION = SOUNDS_FOLDER + "explosion-5981";
     //public static final String SOUND_LASER = SOUNDS_FOLDER + "alienMove2.wav";    
     
     
