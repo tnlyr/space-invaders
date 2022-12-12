@@ -132,6 +132,7 @@ public class GameWorld extends GameEngine {
 
         // load sound files
         getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER));
+        getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION));
     }
 
 
@@ -229,8 +230,9 @@ public class GameWorld extends GameEngine {
         Random rnd = new Random();
         Scene gameSurface = getGameSurface();
         for (int i = 0; i < numSpheres; i++) {
-            // TODO : Generate random atoms
-            Atom atom = new Atom(ResourcesManager.INVADER_SCI_FI);
+            String[] badguyList = ResourcesManager.INADER_SPRITES_PATH;
+            int badguyrandom = (int)(Math.random()* badguyList.length);
+            Atom atom = new Atom(badguyList[badguyrandom]);
             ImageView atomImage = atom.getImageViewNode();
             // random 0 to 2 + (.0 to 1) * random (1 or -1)
             // Randomize the location of each newly generated atom.
@@ -352,6 +354,7 @@ public class GameWorld extends GameEngine {
 
         if (spriteA instanceof Missile && spriteB.getClass().equals(Atom.class)) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
+                getSoundManager().playSound("CollisionSound");
                 setCurrentScore(getCurrentScore() + 1);
                 System.out.println("Missile and Atom collided");
                 spriteA.handleDeath(this);
