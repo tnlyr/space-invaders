@@ -55,7 +55,11 @@ public abstract class GameEngine {
      */
     private final SpriteManager spriteManager;
 
-    private final SoundManager soundManager;
+    private  SoundManager soundManager;
+
+    public void setSoundManager(SoundManager soundManager) {
+        this.soundManager = soundManager;
+    }
 
     /**
      * Constructor that is called by the derived class. This will set the frames
@@ -143,7 +147,7 @@ public abstract class GameEngine {
         for (Sprite spriteA : spriteManager.getCollisionsToCheck()) {
             for (Sprite spriteB : spriteManager.getAllSprites()) {
                 if (handleCollision(spriteA, spriteB)) {
-                    
+
                     // The break helps optimize the collisions
                     //  The break statement means one object only hits another
                     // object as opposed to one hitting many objects.

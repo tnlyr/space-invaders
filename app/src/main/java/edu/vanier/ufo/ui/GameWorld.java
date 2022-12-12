@@ -57,10 +57,12 @@ public class GameWorld extends GameEngine {
     int currentScoreInt;
     int currentLevelInt;
 
+    Stage primaryStage1;
 
     public GameWorld(int fps, String title) {
         super(fps, title);
     }
+
 
     /**
      * Initialize the game world by adding sprite objects.
@@ -69,6 +71,7 @@ public class GameWorld extends GameEngine {
      */
     @Override
     public void initialize(final Stage primaryStage) {
+        primaryStage1 = primaryStage;
         // Sets the window title
         primaryStage.setTitle(getWindowTitle());
         //primaryStage.setFullScreen(true);
@@ -205,18 +208,18 @@ public class GameWorld extends GameEngine {
             }
         });
         // if key is released, stop moving
-        primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if (KeyCode.W == event.getCode()) {
-                System.out.println("W released");
-                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-            } else if (KeyCode.A == event.getCode()) {
-                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-            } else if (KeyCode.S == event.getCode()) {
-                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-            } else if (KeyCode.D == event.getCode()) {
-                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-            }
-        });
+//        primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+//            if (KeyCode.W == event.getCode()) {
+//                System.out.println("W released");
+//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+//            } else if (KeyCode.A == event.getCode()) {
+//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+//            } else if (KeyCode.S == event.getCode()) {
+//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+//            } else if (KeyCode.D == event.getCode()) {
+//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+//            }
+//        });
 
     }
 
@@ -278,6 +281,10 @@ public class GameWorld extends GameEngine {
         sprite.update();
         if (sprite instanceof Missile) {
             removeMissiles((Missile) sprite);
+        }else if(currentLifeInt == 0){
+            sprite.handleDeath(this);
+            handleGameOver();
+
         } else {
             bounceOffWalls(sprite);
         }
@@ -366,32 +373,7 @@ public class GameWorld extends GameEngine {
                 System.out.println("Atom and Ship collided");
                 spriteA.handleDeath(this);
                 // if the ship is hit, decrement the ship's health; if the ship's health is 0, remove the ship from the game and end the game
-                if (getCurrentLife() > 0) {
                     setCurrentLife(getCurrentLife() - 1);
-                } else if (getCurrentLife() == 0) {
-                    spriteB.handleDeath(this);
-                    // TODO: end the game
-                    VBox gameOver = new VBox(20);
-                    gameOver.getChildren().add(new Text("Game Over"));
-                    gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
-                    gameOver.setAlignment(Pos.CENTER);
-                    Button restart = new Button("Restart");
-                    gameOver.getChildren().add(restart);
-                    Button quit = new Button("Quit");
-                    gameOver.getChildren().add(quit);
-                    Stage gameOverStage = new Stage(StageStyle.TRANSPARENT);
-                    gameOverStage.initOwner(getGameSurface().getWindow());
-                    gameOverStage.initModality(Modality.APPLICATION_MODAL);
-                    gameOverStage.setScene(new Scene(gameOver, Color.TRANSPARENT));
-                    gameOverStage.show();
-                    restart.setOnAction(e -> {
-                        gameOverStage.close();
-                        initialize((Stage) getGameSurface().getWindow());
-                    });
-                    quit.setOnAction(e -> {
-                        System.exit(0);
-                    });
-                }
             }
         }
         return false;
@@ -423,6 +405,34 @@ public class GameWorld extends GameEngine {
         this.currentLevelInt = currentLevelInt;
         currentLevel.setText("Level: " + currentLevelInt);
     }
+    public void handleGameOver(){
 
+        // TODO: end the game
+        shutdown();
+
+        VBox gameOver = new VBox(40);
+        gameOver.getChildren().add(new Text("Game Over"));
+        gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
+        gameOver.setAlignment(Pos.CENTER);
+        Button restart = new Button("Restart");
+        gameOver.getChildren().add(restart);
+        Button quit = new Button("Quit");
+        gameOver.getChildren().add(quit);
+        Scene gameOverScene = new Scene(gameOver, 400,400);
+        setGameSurface(gameOverScene);
+        primaryStage1.setScene(gameOverScene);
+        restart.setOnAction(e -> {
+            setCurrentLife(3);
+            getSceneNodes().getChildren().removeAll();
+            getSpriteManager().getAllSprites().clear();
+            setSoundManager(new SoundManager(3));
+            beginGameLoop();
+            initialize(primaryStage1);
+            spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+        });
+        quit.setOnAction(e -> {
+            System.exit(0);
+        });
+    }
 }
 

@@ -28,10 +28,10 @@ public class ResourcesManager {
     // Invader sprites.
     public static final String INVADER_LARGE_SHIP = IMAGES_FOLDER + "large_invader_b.png";
     public static final String INVADER_SMALL_SHIP = IMAGES_FOLDER + "small_invader_b.png";
-    public static final String INVADER_UFO = IMAGES_FOLDER + "ufo.png";
-    public static final String INVADER_CHICKEN = IMAGES_FOLDER + "rounded-chicken.png";
-    public static final String INVADER_BEE = IMAGES_FOLDER + "small-bee.png";
-    public static final String INVADER_SCI_FI = IMAGES_FOLDER + "villainGreen.png";
+    public static final String INVADER_UFO = IMAGES_FOLDER + "spaceStation_001.png";
+    public static final String INVADER_SAT = IMAGES_FOLDER + "spaceStation_002.png";
+    public static final String INVADER_ALIEN = IMAGES_FOLDER + "extra.png";
+    public static final String INVADER_SCI_FI = IMAGES_FOLDER + "spaceAstronauts_009.png";
 
     // Explosion sprites.
     public static final String EXPLOSION = IMAGES_FOLDER + "explotion-explode.gif";
@@ -44,7 +44,7 @@ public class ResourcesManager {
     
     
     public static final String[] INADER_SPRITES_PATH = {			
-			INVADER_UFO, INVADER_CHICKEN, INVADER_BEE,INVADER_SCI_FI
+			INVADER_UFO, INVADER_SAT, INVADER_ALIEN,INVADER_SCI_FI
 	};
 
 //    public static final String ROCKET_SMALL = IMAGES_FOLDER + "rocket.png";
