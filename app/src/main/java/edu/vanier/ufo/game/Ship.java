@@ -128,7 +128,7 @@ public class Ship extends Sprite {
     private KeyCode keyCode;
 
     public boolean isShieldOn() {
-        return shieldOn;
+        return this.shieldOn;
     }
 
 

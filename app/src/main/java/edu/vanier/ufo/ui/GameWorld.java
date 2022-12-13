@@ -378,10 +378,12 @@ public class GameWorld extends GameEngine {
             }
         } else if (spriteA.getClass().equals(Atom.class) && spriteB instanceof Ship) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
-                System.out.println("Atom and Ship collided");
-                spriteA.handleDeath(this);
-                // if the ship is hit, decrement the ship's health; if the ship's health is 0, remove the ship from the game and end the game
+                if (!((Ship) spriteB).isShieldOn()) {
+                    System.out.println("Atom and Ship collided");
+                    spriteA.handleDeath(this);
+                    // if the ship is hit, decrement the ship's health; if the ship's health is 0, remove the ship from the game and end the game
                     setCurrentLife(getCurrentLife() - 1);
+                }
             }
         }
         return false;
