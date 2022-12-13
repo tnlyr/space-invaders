@@ -90,9 +90,10 @@ public class GameWorld extends GameEngine {
         keyboardEventHandler(primaryStage);
 
         // Create many spheres
-        generateManySpheres(10);
+        generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,2);
 
         getSpriteManager().addSprites(spaceShip);
+        spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
         getSceneNodes().getChildren().add(0, spaceShip.getNode());
         // set the ship to the center of the screen
         spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
@@ -208,18 +209,18 @@ public class GameWorld extends GameEngine {
             }
         });
         // if key is released, stop moving
-//        primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-//            if (KeyCode.W == event.getCode()) {
-//                System.out.println("W released");
-//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-//            } else if (KeyCode.A == event.getCode()) {
-//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-//            } else if (KeyCode.S == event.getCode()) {
-//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-//            } else if (KeyCode.D == event.getCode()) {
-//                spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
-//            }
-//        });
+     primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+          if (KeyCode.W == event.getCode()) {
+              System.out.println("W released");
+             spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+          } else if (KeyCode.A == event.getCode()) {
+              spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+          } else if (KeyCode.S == event.getCode()) {
+              spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+          } else if (KeyCode.D == event.getCode()) {
+              spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+          }
+      });
 
     }
 
@@ -229,18 +230,18 @@ public class GameWorld extends GameEngine {
      * @param numSpheres The number of random sized, color, and velocity atoms
      *                   to generate.
      */
-    private void generateManySpheres(int numSpheres) {
+    private void generateManySpheres(int numSpheres,String[] invaderList,int velocity) {
         Random rnd = new Random();
         Scene gameSurface = getGameSurface();
         for (int i = 0; i < numSpheres; i++) {
-            String[] badguyList = ResourcesManager.INADER_SPRITES_PATH;
-            int badguyrandom = (int)(Math.random()* badguyList.length);
-            Atom atom = new Atom(badguyList[badguyrandom]);
+            String[] alienList = invaderList;
+            int alienRandom = (int)(Math.random()* alienList.length);
+            Atom atom = new Atom(alienList[alienRandom]);
             ImageView atomImage = atom.getImageViewNode();
             // random 0 to 2 + (.0 to 1) * random (1 or -1)
             // Randomize the location of each newly generated atom.
-            atom.setVelocityX((rnd.nextInt(2) + rnd.nextDouble()) * (rnd.nextBoolean() ? 1 : -1));
-            atom.setVelocityY((rnd.nextInt(2) + rnd.nextDouble()) * (rnd.nextBoolean() ? 1 : -1));
+            atom.setVelocityX((rnd.nextInt(velocity) + rnd.nextDouble()) * (rnd.nextBoolean() ? 1 : -1));
+            atom.setVelocityY((rnd.nextInt(velocity) + rnd.nextDouble()) * (rnd.nextBoolean() ? 1 : -1));
 
             // random x between 0 to width of scene
             double newX = rnd.nextInt((int) gameSurface.getWidth() - 100);
@@ -285,7 +286,12 @@ public class GameWorld extends GameEngine {
             sprite.handleDeath(this);
             handleGameOver();
 
-        } else {
+        } else if(getSpriteManager().getAllSprites().size()==1){
+            handleLevel2();
+        } else if(getSpriteManager().getAllSprites().size()==1) {
+            handleLevel3();
+
+        }else{
             bounceOffWalls(sprite);
         }
     }
@@ -434,5 +440,56 @@ public class GameWorld extends GameEngine {
             System.exit(0);
         });
     }
+    public void handleLevel2(){
+
+        // TODO: end the game
+        shutdown();
+
+        VBox gameOver = new VBox(40);
+        gameOver.getChildren().add(new Text("Next Level"));
+        gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
+        gameOver.setAlignment(Pos.CENTER);
+        Button nextLevel = new Button("Next Level");
+        gameOver.getChildren().add(nextLevel);
+        Button quit = new Button("Too scared?");
+        gameOver.getChildren().add(quit);
+        Scene gameOverScene = new Scene(gameOver, 400,400);
+        setGameSurface(gameOverScene);
+        primaryStage1.setScene(gameOverScene);
+        nextLevel.setOnAction(e -> {
+            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH,5);
+            spaceShip.changeShip(ResourcesManager.INVADER_SAT);
+            setCurrentLife(3);
+            getSceneNodes().getChildren().removeAll();
+            getSpriteManager().getAllSprites().clear();
+            setSoundManager(new SoundManager(3));
+            beginGameLoop();
+            initialize(primaryStage1);
+            spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+        });
+        quit.setOnAction(e -> {
+            System.exit(0);
+        });
+    }
+    public void handleLevel3(){
+
+        // TODO: end the game
+        shutdown();
+
+        VBox gameOver = new VBox(40);
+        gameOver.getChildren().add(new Text("The End"));
+        gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
+        gameOver.setAlignment(Pos.CENTER);
+        Button theEnd = new Button("The End");
+        gameOver.getChildren().add(theEnd);
+        Scene gameOverScene = new Scene(gameOver, 400,400);
+        setGameSurface(gameOverScene);
+        primaryStage1.setScene(gameOverScene);
+        theEnd.setOnAction(e -> {
+            System.exit(0);
+        });
+    }
+
+
 }
 
