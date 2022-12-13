@@ -46,6 +46,9 @@ public class ResourcesManager {
     public static final String[] INADER_SPRITES_PATH = {			
 			INVADER_UFO, INVADER_SAT, INVADER_ALIEN,INVADER_SCI_FI
 	};
+    public static final String[] INADER_SPRITES_PATH2 = {
+            INVADER_LARGE_SHIP, INVADER_SCI_FI, ROCKET_FIRE,ROCKET_SMALL
+    };
 
 //    public static final String ROCKET_SMALL = IMAGES_FOLDER + "rocket.png";
     public static HashMap<Integer, String> getInvaderSprites() {

@@ -286,9 +286,11 @@ public class GameWorld extends GameEngine {
             sprite.handleDeath(this);
             handleGameOver();
 
-        } else if(getSpriteManager().getAllSprites().size()==1){
+        } else if(getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==1){
+            setCurrentLevel(getCurrentLevel() + 1);
             handleLevel2();
-        } else if(getSpriteManager().getAllSprites().size()==1) {
+        } else if(getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==2) {
+            setCurrentScore(getCurrentLevel() + 1);
             handleLevel3();
 
         }else{
@@ -444,7 +446,7 @@ public class GameWorld extends GameEngine {
 
         // TODO: end the game
         shutdown();
-
+        //setCurrentLevel(getCurrentLevel()+1);
         VBox gameOver = new VBox(40);
         gameOver.getChildren().add(new Text("Next Level"));
         gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
@@ -457,7 +459,7 @@ public class GameWorld extends GameEngine {
         setGameSurface(gameOverScene);
         primaryStage1.setScene(gameOverScene);
         nextLevel.setOnAction(e -> {
-            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH,5);
+            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH2,5);
             spaceShip.changeShip(ResourcesManager.INVADER_SAT);
             setCurrentLife(3);
             getSceneNodes().getChildren().removeAll();
@@ -472,10 +474,11 @@ public class GameWorld extends GameEngine {
         });
     }
     public void handleLevel3(){
-
+        System.out.println("t bo");
         // TODO: end the game
         shutdown();
-
+        generateManySpheres(25,ResourcesManager.INADER_SPRITES_PATH2,7);
+        //setCurrentLevel(getCurrentLevel()+1);
         VBox gameOver = new VBox(40);
         gameOver.getChildren().add(new Text("The End"));
         gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
