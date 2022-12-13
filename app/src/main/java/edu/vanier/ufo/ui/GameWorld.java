@@ -39,9 +39,9 @@ import javafx.stage.StageStyle;
 public class GameWorld extends GameEngine {
 
     // mouse pt label
-    Label mousePtLabel = new Label();
+    //Label mousePtLabel = new Label();
     // mouse press pt label
-    Label mousePressPtLabel = new Label();
+    //Label mousePressPtLabel = new Label();
     //Current Score Label
     Label currentScore = new Label();
     //Current Level
@@ -106,12 +106,12 @@ public class GameWorld extends GameEngine {
         VBox stats = new VBox();
 
         // HUD
-        HBox row1 = new HBox();
-        mousePtLabel.setTextFill(Color.WHITE);
-        row1.getChildren().add(mousePtLabel);
-        HBox row2 = new HBox();
-        mousePressPtLabel.setTextFill(Color.WHITE);
-        row2.getChildren().add(mousePressPtLabel);
+        //HBox row1 = new HBox();
+        //mousePtLabel.setTextFill(Color.WHITE);
+        //row1.getChildren().add(mousePtLabel);
+        //HBox row2 = new HBox();
+        //mousePressPtLabel.setTextFill(Color.WHITE);
+        //row2.getChildren().add(mousePressPtLabel);
         HBox row3 = new HBox();
         currentScore.setText("Current Score: ");
         currentScore.setTextFill(Color.GREEN);
@@ -125,8 +125,8 @@ public class GameWorld extends GameEngine {
         currentLives.setTextFill(Color.RED);
         row5.getChildren().add(currentLives);
 
-        stats.getChildren().add(row1);
-        stats.getChildren().add(row2);
+        //stats.getChildren().add(row1);
+        //stats.getChildren().add(row2);
         stats.getChildren().add(row3);
         stats.getChildren().add(row4);
         stats.getChildren().add(row5);
@@ -149,7 +149,7 @@ public class GameWorld extends GameEngine {
         System.out.println("Ship's center is (" + spaceShip.getCenterX() + ", " + spaceShip.getCenterY() + ")");
 
         EventHandler fireOrMove = (EventHandler<MouseEvent>) (MouseEvent event) -> {
-            mousePressPtLabel.setText("Mouse Press PT = (" + event.getX() + ", " + event.getY() + ")");
+            //mousePressPtLabel.setText("Mouse Press PT = (" + event.getX() + ", " + event.getY() + ")");
             if (event.getButton() == MouseButton.PRIMARY) {
 
                 // Aim
@@ -189,7 +189,7 @@ public class GameWorld extends GameEngine {
 
         // set up stats
         EventHandler showMouseMove = (EventHandler<MouseEvent>) (MouseEvent event) -> {
-            mousePtLabel.setText("Mouse PT = (" + event.getX() + ", " + event.getY() + ")");
+            //mousePtLabel.setText("Mouse PT = (" + event.getX() + ", " + event.getY() + ")");
         };
         
         primaryStage.getScene().setOnMouseMoved(showMouseMove);
@@ -230,7 +230,7 @@ public class GameWorld extends GameEngine {
      * @param numSpheres The number of random sized, color, and velocity atoms
      *                   to generate.
      */
-    private void generateManySpheres(int numSpheres,String[] invaderList,int velocity) {
+    private void generateManySpheres(int numSpheres, String[] invaderList, int velocity) {
         Random rnd = new Random();
         Scene gameSurface = getGameSurface();
         for (int i = 0; i < numSpheres; i++) {
@@ -282,18 +282,17 @@ public class GameWorld extends GameEngine {
         sprite.update();
         if (sprite instanceof Missile) {
             removeMissiles((Missile) sprite);
-        }else if(currentLifeInt == 0){
+        } else if (currentLifeInt == 0) {
             sprite.handleDeath(this);
             handleGameOver();
 
-        } else if(getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==1){
-            setCurrentLevel(getCurrentLevel() + 1);
+        } else if (getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==1) {
             handleLevel2();
-        } else if(getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==2) {
+        } else if (getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==2) {
             setCurrentScore(getCurrentLevel() + 1);
             handleLevel3();
 
-        }else{
+        } else {
             bounceOffWalls(sprite);
         }
     }
@@ -416,10 +415,7 @@ public class GameWorld extends GameEngine {
         currentLevel.setText("Level: " + currentLevelInt);
     }
     public void handleGameOver(){
-
-        // TODO: end the game
         shutdown();
-
         VBox gameOver = new VBox(40);
         gameOver.getChildren().add(new Text("Game Over"));
         gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
@@ -445,8 +441,6 @@ public class GameWorld extends GameEngine {
         });
     }
     public void handleLevel2(){
-
-        // TODO: end the game
         shutdown();
         //setCurrentLevel(getCurrentLevel()+1);
         VBox gameOver = new VBox(40);
@@ -468,7 +462,39 @@ public class GameWorld extends GameEngine {
             getSpriteManager().getAllSprites().clear();
             setSoundManager(new SoundManager(3));
             beginGameLoop();
-            initialize(primaryStage1);
+            primaryStage1.setTitle(getWindowTitle());
+            setSceneNodes(new Group());
+            setGameSurface(new Scene(getSceneNodes(), 1000, 600));
+            getGameSurface().setFill(Color.BLACK);
+            primaryStage1.setScene(getGameSurface());
+            setupInput(primaryStage1);
+            keyboardEventHandler(primaryStage1);
+            generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,2);
+            getSpriteManager().addSprites(spaceShip);
+            spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
+            getSceneNodes().getChildren().add(0, spaceShip.getNode());
+            spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
+            spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
+            setCurrentLevel(2);
+            VBox stats = new VBox();
+            HBox row3 = new HBox();
+            currentScore.setText("Current Score: ");
+            currentScore.setTextFill(Color.GREEN);
+            row3.getChildren().add(currentScore);
+            HBox row4 = new HBox();
+            currentLevel.setText("Current Level: ");
+            currentLevel.setTextFill(Color.GREEN);
+            row4.getChildren().add(currentLevel);
+            HBox row5 = new HBox();
+            currentLives.setText("Current Lives: " + getCurrentLife());
+            currentLives.setTextFill(Color.RED);
+            row5.getChildren().add(currentLives);
+            stats.getChildren().add(row3);
+            stats.getChildren().add(row4);
+            stats.getChildren().add(row5);
+            getSceneNodes().getChildren().add(0, stats);
+            getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER));
+            getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION));
             spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
         });
         quit.setOnAction(e -> {
