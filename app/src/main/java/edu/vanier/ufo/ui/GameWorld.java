@@ -45,7 +45,7 @@ public class GameWorld extends GameEngine {
     //Current Score Label
     Label currentScore = new Label();
     //Current Level
-    Label currentLevel = new Label("test");
+    Label currentLevel = new Label();
     //Counter of lives
     Label currentLives = new Label();
     Ship spaceShip = new Ship();
@@ -55,7 +55,7 @@ public class GameWorld extends GameEngine {
 
 
     int currentScoreInt;
-    int currentLevelInt;
+    int currentLevelInt = 1;
 
     Stage primaryStage1;
 
@@ -285,13 +285,24 @@ public class GameWorld extends GameEngine {
         } else if (currentLifeInt == 0) {
             sprite.handleDeath(this);
             handleGameOver();
-
         } else if (getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==1) {
             handleLevel2();
         } else if (getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==2) {
-            setCurrentScore(getCurrentLevel() + 1);
             handleLevel3();
-
+        } else if (getSpriteManager().getAllSprites().size()==1 && getCurrentLevel()==3) {
+            shutdown();
+            VBox gameOver = new VBox(40);
+            gameOver.getChildren().add(new Text("The End"));
+            gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
+            gameOver.setAlignment(Pos.CENTER);
+            Button theEnd = new Button("The End");
+            gameOver.getChildren().add(theEnd);
+            Scene gameOverScene = new Scene(gameOver, 400,400);
+            setGameSurface(gameOverScene);
+            primaryStage1.setScene(gameOverScene);
+            theEnd.setOnAction(e -> {
+                System.exit(0);
+            });
         } else {
             bounceOffWalls(sprite);
         }
@@ -442,7 +453,7 @@ public class GameWorld extends GameEngine {
     }
     public void handleLevel2(){
         shutdown();
-        //setCurrentLevel(getCurrentLevel()+1);
+        setCurrentLevel(getCurrentLevel()+1);
         VBox gameOver = new VBox(40);
         gameOver.getChildren().add(new Text("Next Level"));
         gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
@@ -503,20 +514,66 @@ public class GameWorld extends GameEngine {
     }
     public void handleLevel3(){
         System.out.println("t bo");
-        // TODO: end the game
+//        setCurrentLevel(getCurrentLevel()+1);
+//        System.out.println(currentLevelInt);
         shutdown();
         generateManySpheres(25,ResourcesManager.INADER_SPRITES_PATH2,7);
         //setCurrentLevel(getCurrentLevel()+1);
         VBox gameOver = new VBox(40);
-        gameOver.getChildren().add(new Text("The End"));
+        gameOver.getChildren().add(new Text("Next Level"));
         gameOver.getChildren().add(new Text("Score: " + getCurrentScore()));
         gameOver.setAlignment(Pos.CENTER);
-        Button theEnd = new Button("The End");
-        gameOver.getChildren().add(theEnd);
+        Button nextLevel = new Button("Next Level");
+        gameOver.getChildren().add(nextLevel);
+        Button quit = new Button("Too scared?");
+        gameOver.getChildren().add(quit);
         Scene gameOverScene = new Scene(gameOver, 400,400);
         setGameSurface(gameOverScene);
         primaryStage1.setScene(gameOverScene);
-        theEnd.setOnAction(e -> {
+        nextLevel.setOnAction(e -> {
+            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH2,5);
+            spaceShip.changeShip(ResourcesManager.INVADER_SAT);
+            setCurrentLife(3);
+            getSceneNodes().getChildren().removeAll();
+            getSpriteManager().getAllSprites().clear();
+            setSoundManager(new SoundManager(3));
+            beginGameLoop();
+            primaryStage1.setTitle(getWindowTitle());
+            setSceneNodes(new Group());
+            setGameSurface(new Scene(getSceneNodes(), 1000, 600));
+            getGameSurface().setFill(Color.BLACK);
+            primaryStage1.setScene(getGameSurface());
+            setupInput(primaryStage1);
+            keyboardEventHandler(primaryStage1);
+            generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,2);
+            getSpriteManager().addSprites(spaceShip);
+            spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
+            getSceneNodes().getChildren().add(0, spaceShip.getNode());
+            spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
+            spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
+            setCurrentLevel(3);
+            VBox stats = new VBox();
+            HBox row3 = new HBox();
+            currentScore.setText("Current Score: ");
+            currentScore.setTextFill(Color.GREEN);
+            row3.getChildren().add(currentScore);
+            HBox row4 = new HBox();
+            currentLevel.setText("Current Level: ");
+            currentLevel.setTextFill(Color.GREEN);
+            row4.getChildren().add(currentLevel);
+            HBox row5 = new HBox();
+            currentLives.setText("Current Lives: " + getCurrentLife());
+            currentLives.setTextFill(Color.RED);
+            row5.getChildren().add(currentLives);
+            stats.getChildren().add(row3);
+            stats.getChildren().add(row4);
+            stats.getChildren().add(row5);
+            getSceneNodes().getChildren().add(0, stats);
+            getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER));
+            getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION));
+            spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
+        });
+        quit.setOnAction(e -> {
             System.exit(0);
         });
     }
