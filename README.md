@@ -1,7 +1,7 @@
 # space-invaders
 420-203 Assignment #2, Lounes & Rami
 
-## __Keybinds: __
+## Keybinds:
 1-2: Switch weapons
 W: Go forward
 A: Go left
