@@ -373,10 +373,7 @@ public class GameWorld extends GameEngine {
      */
     @Override
     protected boolean handleCollision(Sprite spriteA, Sprite spriteB) {
-        //TODO: implement collision detection here.
-        // if collision between a missile and an invader occurs, remove both from the game
-        // if collision between an invader and the ship occurs, remove the missile and decrement the ship's health
-
+        setCurrentLevel(getCurrentLevel());
         if (spriteA instanceof Missile && spriteB.getClass().equals(Atom.class)) {
             if (spriteA.collide(spriteB) || spriteB.collide(spriteA)) {
                 getSoundManager().playSound("CollisionSound");
