@@ -18,7 +18,9 @@ public class ResourcesManager {
     private static final String IMAGES_FOLDER = RESOURCES_FOLDER + "images/";
     private static final String SOUNDS_FOLDER = RESOURCES_FOLDER + "sounds/";
     // Ship images.
-    public static final String SPACE_SHIP = IMAGES_FOLDER + "spiked ship.png";
+    public static final String SPACE_SHIP = IMAGES_FOLDER + "xenis-green-c-3.png";
+    public static final String SPACE_SHIP2 = IMAGES_FOLDER + "xenis-brown-c-4.png";
+    public static final String SPACE_SHIP3 = IMAGES_FOLDER + "xenis-greenblue-c-5.png";
     public static final String SPACE_STAR_SHIP = IMAGES_FOLDER + "starship.png";
     public static final String SPACE_TANK = IMAGES_FOLDER + "tank.png";
     // Rocket images

@@ -482,7 +482,7 @@ public class GameWorld extends GameEngine {
             keyboardEventHandler(primaryStage1);
             generateManySpheres(17, ResourcesManager.INADER_SPRITES_PATH2,2);
             getSpriteManager().addSprites(spaceShip);
-            spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
+            spaceShip.changeShip(ResourcesManager.SPACE_SHIP2);
             getSceneNodes().getChildren().add(0, spaceShip.getNode());
             spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
             spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
@@ -547,7 +547,7 @@ public class GameWorld extends GameEngine {
             keyboardEventHandler(primaryStage1);
             generateManySpheres(20, ResourcesManager.INADER_SPRITES_PATH3,3);
             getSpriteManager().addSprites(spaceShip);
-            spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
+            spaceShip.changeShip(ResourcesManager.SPACE_SHIP3);
             getSceneNodes().getChildren().add(0, spaceShip.getNode());
             spaceShip.getNode().setTranslateX(getGameSurface().getWidth() / 2);
             spaceShip.getNode().setTranslateY(getGameSurface().getHeight() / 4 + 2 * getGameSurface().getHeight() / 4);
