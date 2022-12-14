@@ -90,7 +90,7 @@ public class GameWorld extends GameEngine {
         keyboardEventHandler(primaryStage);
 
         // Create many spheres
-        generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,2);
+        generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,1);
 
         getSpriteManager().addSprites(spaceShip);
         spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
@@ -466,7 +466,7 @@ public class GameWorld extends GameEngine {
         setGameSurface(gameOverScene);
         primaryStage1.setScene(gameOverScene);
         nextLevel.setOnAction(e -> {
-            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH2,5);
+            generateManySpheres(17,ResourcesManager.INADER_SPRITES_PATH2,2);
             spaceShip.changeShip(ResourcesManager.INVADER_SAT);
             setCurrentLife(3);
             getSceneNodes().getChildren().removeAll();
@@ -480,7 +480,7 @@ public class GameWorld extends GameEngine {
             primaryStage1.setScene(getGameSurface());
             setupInput(primaryStage1);
             keyboardEventHandler(primaryStage1);
-            generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,2);
+            generateManySpheres(17, ResourcesManager.INADER_SPRITES_PATH2,2);
             getSpriteManager().addSprites(spaceShip);
             spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
             getSceneNodes().getChildren().add(0, spaceShip.getNode());
@@ -504,8 +504,8 @@ public class GameWorld extends GameEngine {
             stats.getChildren().add(row4);
             stats.getChildren().add(row5);
             getSceneNodes().getChildren().add(0, stats);
-            getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER));
-            getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION));
+            getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER2));
+            getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION2));
             spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
         });
         quit.setOnAction(e -> {
@@ -517,7 +517,7 @@ public class GameWorld extends GameEngine {
 //        setCurrentLevel(getCurrentLevel()+1);
 //        System.out.println(currentLevelInt);
         shutdown();
-        generateManySpheres(25,ResourcesManager.INADER_SPRITES_PATH2,7);
+        generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH2,3);
         //setCurrentLevel(getCurrentLevel()+1);
         VBox gameOver = new VBox(40);
         gameOver.getChildren().add(new Text("Next Level"));
@@ -531,7 +531,7 @@ public class GameWorld extends GameEngine {
         setGameSurface(gameOverScene);
         primaryStage1.setScene(gameOverScene);
         nextLevel.setOnAction(e -> {
-            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH2,5);
+            generateManySpheres(20,ResourcesManager.INADER_SPRITES_PATH3,3);
             spaceShip.changeShip(ResourcesManager.INVADER_SAT);
             setCurrentLife(3);
             getSceneNodes().getChildren().removeAll();
@@ -545,7 +545,7 @@ public class GameWorld extends GameEngine {
             primaryStage1.setScene(getGameSurface());
             setupInput(primaryStage1);
             keyboardEventHandler(primaryStage1);
-            generateManySpheres(15, ResourcesManager.INADER_SPRITES_PATH,2);
+            generateManySpheres(20, ResourcesManager.INADER_SPRITES_PATH3,3);
             getSpriteManager().addSprites(spaceShip);
             spaceShip.changeShip(ResourcesManager.SPACE_SHIP);
             getSceneNodes().getChildren().add(0, spaceShip.getNode());
@@ -569,8 +569,8 @@ public class GameWorld extends GameEngine {
             stats.getChildren().add(row4);
             stats.getChildren().add(row5);
             getSceneNodes().getChildren().add(0, stats);
-            getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER));
-            getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION));
+            getSoundManager().loadSoundEffects("laser", getClass().getClassLoader().getResource(ResourcesManager.SOUND_LASER3));
+            getSoundManager().loadSoundEffects("CollisionSound", getClass().getClassLoader().getResource(ResourcesManager.SOUND_COLLISION3));
             spaceShip.applyTheBrakes(spaceShip.getCenterX(), spaceShip.getCenterY());
         });
         quit.setOnAction(e -> {
